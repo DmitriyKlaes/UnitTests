@@ -94,4 +94,32 @@ public class CalculatorTest {
         System.setIn(inputStream);
         System.setOut(null);
     }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {-5.0, 0, 5.0,})
+    void testComputeAreaCircle(double radius) {
+        Calculator calculator = new Calculator();
+        if(radius < 0){
+            Exception error = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> calculator.computeAreaCircle(radius));
+            assertThat(error.getMessage()).isEqualTo(Calculator.errorMessage);
+        } else {
+            assertEquals(Math.PI * radius * radius, calculator.computeAreaCircle(radius));
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {-5.0, 0, 5.0})
+    void testComputeLengthCircle(double radius) {
+        Calculator calculator = new Calculator();
+        if(radius < 0){
+            Exception error = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> calculator.computeLengthCircle(radius));
+            assertThat(error.getMessage()).isEqualTo(Calculator.errorMessage);
+        } else {
+            assertEquals(2 * Math.PI * radius, calculator.computeLengthCircle(radius));
+        }
+    }
 }
